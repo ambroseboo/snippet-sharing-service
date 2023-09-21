@@ -24,7 +24,7 @@ export function ViewSnippet() {
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Snippet Content</Accordion.Header>
                     <Accordion.Body>
-                        {data.content}
+                        <pre>{data.content}</pre>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

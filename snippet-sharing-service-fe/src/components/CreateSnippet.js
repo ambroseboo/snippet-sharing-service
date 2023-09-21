@@ -52,7 +52,7 @@ export function CreateSnippet() {
      
     return (
         <React.Fragment>
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit} style={{padding: "2rem"}}>
             <h2>Create Snippet</h2>
                 <TextField 
                     label="Title"
