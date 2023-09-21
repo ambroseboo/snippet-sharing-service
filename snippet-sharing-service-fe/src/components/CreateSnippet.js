@@ -1,29 +1,54 @@
 import { postSnippet } from '../actions/actions.js'
-import React, {useState, useEffect} from 'react';
-import { TextField, FormControl, Button } from "@mui/material";
+import React, {useState} from 'react';
+import { TextField, Button } from "@mui/material";
+
 
 export function CreateSnippet() {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
+    const [expiry, setExpiry] = useState(0)
     const [titleError, setTitleError] = useState(false)
+    const [expiryError, setExpiryError] = useState(false)
+
  
     const handleSubmit = async (event) => {
         event.preventDefault()
  
         setTitleError(false)
+        setExpiryError(false)
  
-        if (title == '') {
+        if (title === '') {
             setTitleError(true)
-        } else {
+        } 
+        
+        if (expiry === '') {
+            setExpiryError(true)
+        }
+
+        if (title !== '' && expiry !== '') {
             await postSnippet(
                 {
                     content: content,
                     title: title,
                     added_date: new Date(),
-                    expiry_date: new Date(new Date().getTime() + 10*60000)
+                    expiry_date: new Date(new Date().getTime() + Number(expiry)*60000)
                 })
         }
     }
+
+    const numberInputKeyDown = (event) => {
+        const eventCode = event.code.toLowerCase();
+        if (!(event.code !== null
+        && (eventCode.includes("digit")
+            || eventCode.includes("arrow")
+            || eventCode.includes("home")
+            || eventCode.includes("end")
+            || eventCode.includes("backspace") 
+            || (eventCode.includes("numpad") && eventCode.length === 7)))
+        ) {
+        event.preventDefault();
+        }
+    };
      
     return (
         <React.Fragment>
@@ -53,41 +78,22 @@ export function CreateSnippet() {
                     value={content}
                 />
 
-                <TextField type="date" sx={{p: 3}}></TextField>
+                <TextField
+                    id="myNumberInput"
+                    label="Expiry (in minutes)"
+                    type="text"
+                    value={expiry} 
+                    sx={{p: 3}}
+                    onChange={e => setExpiry(e.target.value)}
+                    error={expiryError}
+                    onKeyDown={numberInputKeyDown}
+                />
+
+                
                 <br/>
                 <Button variant="outlined" sx={{m: 3}} color="secondary" type="submit">Submit</Button>
              
         </form>
         </React.Fragment>
     )
-//   return (
-//     <Box
-//       component="form"
-//       sx={{
-//         '& .MuiTextField-root': { m: 1, width: '25ch' },
-//       }}
-//       noValidate
-//       autoComplete="off"
-//     >
-//       <div>
-//         <TextField
-//           id="outlined-multiline-flexible"
-//           label="Multiline"
-//           multiline
-//           maxRows={4}
-//         />
-//       </div>
-      
-//       <div>
-//         <TextField
-//           id="standard-multiline-static"
-//           label="Multiline"
-//           multiline
-//           rows={4}
-//           defaultValue="Default Value"
-//           variant="standard"
-//         />
-//       </div>
-//     </Box>
-//   );
 }
