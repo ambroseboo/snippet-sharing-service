@@ -11,3 +11,8 @@ export const postSnippet = async (data) => {
             console.log(err)
         })
 }
+
+export const getSnippet = async (params) => {
+    return axios.get(`/snippet/${params.url_hash}`)
+        .then(res => res.data)
+}
