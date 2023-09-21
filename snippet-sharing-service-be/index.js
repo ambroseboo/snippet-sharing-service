@@ -1,28 +1,21 @@
-require("dotenv").config({ path: __dirname + "/.env" });
-const express = require('express');
-const pool = require(__dirname + "/config/db.config.js");
+import dotenv from 'dotenv'
+dotenv.config()
+import express from 'express';
+import router from './routes/snippets.routes.js';
 
 const app = express();
 
 const PORT = process.env.PORT || 9000;
 
-//Functions
-const getSnippets =  (req, res) => {
-  pool.query('SELECT * FROM snippet', (error, snippets) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).json(snippets.rows)
-  })
-}
+app.use(router);
 
-//Here you can add your routes
-//Here's an example
-app.get("/", (req, res) => {
-    res.send("Hello World!");
+// handling errors
+app.use((err, req, res, next) => {
+  return res.status(500).json({
+    status: "error",
+    message: err.message,
   });
-
-app.get('/snippets', getSnippets)
+});
 
 
 app.listen(PORT, () => {
