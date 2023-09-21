@@ -1,3 +1,4 @@
+import { url } from "node:inspector";
 import { pool } from "../config/db.config.js";
 import { createHash } from 'node:crypto'
 
@@ -41,4 +42,19 @@ export const postSnippet = async (req, res) => {
             }
             res.status(200)
         })
+}
+
+export const getSnippet = async (req, res) => {
+    const url_hash = req.params['url_hash'];
+
+    let query = "SELECT * FROM snippet WHERE url_hash='" + url_hash + "'";
+
+    let snippet = await pool.query(query)
+
+    if (snippet.rows.length === 0) {
+        // redirect to not found page
+        res.redirect("https://www.google.com")
+    } else {
+        res.status(200).json(snippet.rows[0])
+    }
 }

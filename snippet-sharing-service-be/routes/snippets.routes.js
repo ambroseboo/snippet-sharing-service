@@ -1,6 +1,7 @@
 import express from "express";
 import {
     getSnippets,
+    getSnippet,
     postSnippet
 } from "../controllers/snippets.controller.js";
 
@@ -12,5 +13,6 @@ router.get("/", (req, res) => {
     res.send("Hello World!");
 });
 router.post("/snippet", postSnippet);
+router.get("/snippet/:url_hash", getSnippet);
 
 export default router;
