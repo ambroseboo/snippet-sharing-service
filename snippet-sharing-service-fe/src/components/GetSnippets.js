@@ -55,7 +55,7 @@ export function GetSnippets() {
                     <td>{item.title}</td>
                     <td>{new Date(item.added_date).toString()}</td>
                     <td>{new Date(item.expiry_date).toString()}</td>
-                    <td>{item.views/2}</td>
+                    <td>{item.views}</td>
                 </tr>
                 ))}
             </tbody>
