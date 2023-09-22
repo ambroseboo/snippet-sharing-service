@@ -41,7 +41,7 @@ export const postSnippet = async (req, res) => {
             if (error) {
               throw error
             }
-            res.status(200)
+            res.send(hash)
         })
 }
 
@@ -53,7 +53,6 @@ export const getSnippet = async (req, res) => {
     let snippet = await pool.query(query)
 
     if (snippet.rows.length === 0) {
-        // redirect to not found page
         res.send('not found');
     } else {
         const expiry_date = snippet.rows[0]['expiry_date'];

@@ -1,6 +1,7 @@
 import { postSnippet } from '../actions/actions.js'
 import React, {useState} from 'react';
 import { TextField, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 
 export function CreateSnippet() {
@@ -10,6 +11,7 @@ export function CreateSnippet() {
     const [titleError, setTitleError] = useState(false)
     const [expiryError, setExpiryError] = useState(false)
 
+    const navigate = useNavigate(); 
  
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -26,12 +28,13 @@ export function CreateSnippet() {
         }
 
         if (title !== '' && expiry !== '') {
-            await postSnippet(
-                {
-                    content: content,
-                    title: title,
-                    expiry: expiry
-                })
+            const hash = await postSnippet({
+                content: content,
+                title: title,
+                expiry: expiry
+            })
+            console.log(hash)
+            navigate('/snippet/'+hash);
         }
     }
 
@@ -51,7 +54,7 @@ export function CreateSnippet() {
      
     return (
         <React.Fragment>
-        <form autoComplete="off" onSubmit={handleSubmit} style={{padding: "2rem"}}>
+        <form autoComplete="off" onSubmit={handleSubmit} style={{width: '80%', margin: 'auto', marginTop: '2rem' }}>
             <h2>Create Snippet</h2>
                 <TextField 
                     label="Title"
