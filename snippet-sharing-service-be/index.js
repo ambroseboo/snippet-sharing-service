@@ -2,15 +2,14 @@ import dotenv from 'dotenv'
 dotenv.config()
 import express from 'express';
 import router from './routes/snippets.routes.js';
-var cors = require('cors')
+import cors from 'cors';
 
 const app = express();
 
 const PORT = process.env.PORT || 9000;
 
-app.use(router);
-
 app.use(cors());
+app.use(router);
 
 // handling errors
 app.use((err, req, res, next) => {
