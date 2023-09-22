@@ -11,6 +11,8 @@ app.use(router);
 
 // handling errors
 app.use((err, req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   return res.status(500).json({
     status: "error",
     message: err.message,
