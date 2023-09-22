@@ -7,7 +7,7 @@ const md5 = (content) => {
 
 export const getSnippets =  (req, res) => {
     const now = new Date(new Date().getTime()).toISOString(); 
-    const query = "SELECT * FROM snippet WHERE expiry_date >= '" + now + "' ORDER BY added_date DESC";
+    const query = "SELECT * FROM snippet WHERE expiry_date >= '" + now + "' ORDER BY added_date DESC;";
     pool.query(query, (error, snippets) => {
       if (error) {
         throw error
@@ -26,7 +26,7 @@ export const postSnippet = async (req, res) => {
         let randInt = Math.floor(Math.random() * 100);
         hash = md5(title + currDate + String(randInt));
 
-        let query = "select exists(select 1 from snippet where url_hash='" + hash + "')";
+        let query = "select exists(select 1 from snippet where url_hash='" + hash + "');";
         let result = await pool.query(query);
 
         if (!result.rows[0]['exists']) {
@@ -36,7 +36,7 @@ export const postSnippet = async (req, res) => {
 
     const expiryDate = new Date(currDate.getTime() + Number(expiry)*60000);
     const query = "INSERT INTO snippet (content, title, added_date, expiry_date, views, url_hash) VALUES ("
-    + "'" + content + "'" + "," + "'" + title + "'" + ", '" + currDate.toISOString() + "' , '" + expiryDate.toISOString() + "', 0, '" +  hash + "')";
+    + "'" + content + "'" + "," + "'" + title + "'" + ", '" + currDate.toISOString() + "' , '" + expiryDate.toISOString() + "', 0, '" +  hash + "');";
     pool.query(query, 
         (error) => {
             if (error) {
@@ -49,7 +49,7 @@ export const postSnippet = async (req, res) => {
 export const getSnippet = async (req, res) => {
     const url_hash = req.params['url_hash'];
 
-    let query = "SELECT * FROM snippet WHERE url_hash='" + url_hash + "'";
+    let query = "SELECT * FROM snippet WHERE url_hash='" + url_hash + "';";
 
     let snippet = await pool.query(query)
 
@@ -62,7 +62,7 @@ export const getSnippet = async (req, res) => {
         if (expiry_date < now) {
             res.send('not found');
         } else {
-            query = "UPDATE snippet SET views = views+1 WHERE url_hash='" + url_hash + "'";
+            query = "UPDATE snippet SET views = views+1 WHERE url_hash='" + url_hash + "';";
             await pool.query(query)
             res.status(200).json(snippet.rows[0])
         }
