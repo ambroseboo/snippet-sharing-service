@@ -1,5 +1,5 @@
 import axios from 'axios';
-const proxy = "https://snippet-sharing-service-backend.onrender.com";
+const proxy = "https://snippet-sharing-service-backend.onrender.com"; // need to add proxy link since backend and frontend are hosting on different platforms
 
 export const getSnippets = async () => {
     return axios.get(proxy + '/snippets')
