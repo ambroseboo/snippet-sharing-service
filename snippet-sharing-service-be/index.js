@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import express from 'express';
 import router from './routes/snippets.routes.js';
-import cors from 'cors';
+var cors = require('cors')
 
 const app = express();
 
