@@ -1,4 +1,3 @@
-import { url } from "node:inspector";
 import { pool } from "../config/db.config.js";
 import { createHash } from 'node:crypto'
 
@@ -7,7 +6,9 @@ const md5 = (content) => {
 }
 
 export const getSnippets =  (req, res) => {
-    pool.query('SELECT * FROM snippet', (error, snippets) => {
+    const now = new Date(new Date().getTime()).toISOString(); 
+    const query = "SELECT * FROM snippet WHERE expiry_date >= '" + now + "'";
+    pool.query(query, (error, snippets) => {
       if (error) {
         throw error
       }
