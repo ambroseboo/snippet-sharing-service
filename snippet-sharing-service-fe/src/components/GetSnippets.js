@@ -50,7 +50,7 @@ export function GetSnippets() {
             </tr>
             </thead>
             <tbody>
-                { data.slice(itemRange[0], itemRange[1]).map(item => (
+                { Array.isArray(data) && data.slice(itemRange[0], itemRange[1])?.map(item => (
                 <tr key={item.snippet_id}>
                     <td>{item.title}</td>
                     <td>{new Date(item.added_date).toString()}</td>
