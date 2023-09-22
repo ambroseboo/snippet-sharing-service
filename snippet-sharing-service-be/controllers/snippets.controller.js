@@ -7,7 +7,7 @@ const md5 = (content) => {
 
 export const getSnippets =  (req, res) => {
     const now = new Date(new Date().getTime()).toISOString(); 
-    const query = "SELECT * FROM snippet WHERE expiry_date >= '" + now + "'";
+    const query = "SELECT * FROM snippet WHERE expiry_date >= '" + now + "' ORDER BY added_date DESC";
     pool.query(query, (error, snippets) => {
       if (error) {
         throw error
@@ -60,7 +60,6 @@ export const getSnippet = async (req, res) => {
         const now = new Date(new Date().getTime() - 480*60000); // fix for timezone issues for now
 
         if (expiry_date < now) {
-            // redirect to not found page
             res.send('not found');
         } else {
             query = "UPDATE snippet SET views = views+1 WHERE url_hash='" + url_hash + "'";

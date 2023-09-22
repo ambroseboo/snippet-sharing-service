@@ -10,18 +10,20 @@ export function GetSnippets() {
     const [data, setData] = useState([]);
     const [itemRange, setItemRange] = useState([0, 10]);
 
+    const sortByRecent = () => {
+        setData([...data].sort((a, b) => a.added_date > b.added_date ? -1 : 1));
+    }
+
+    const sortByViews = () => {
+        setData([...data].sort((a, b) => a.views > b.views ? -1 : 1));
+    }
+
     useEffect(() => {
         getSnippets().then(data => setData(data));
     }, []);
 
-    const sortByViews = () => {
-        setData([...data].sort((a, b) => a.views > b.views ? -1 : 1))
-    }
-
     const paginate = pageNumber => {
-        setItemRange([(pageNumber-1)*10, pageNumber*10])
-        console.log(itemRange);
-        console.log(data);
+        setItemRange([(pageNumber-1)*10, pageNumber*10]);
     }
 
     return (
@@ -33,6 +35,7 @@ export function GetSnippets() {
 
             <Dropdown.Menu>
                 <Dropdown.Item onClick={sortByViews}>Views</Dropdown.Item>
+                <Dropdown.Item onClick={sortByRecent}>Most Recent</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
         <br/>

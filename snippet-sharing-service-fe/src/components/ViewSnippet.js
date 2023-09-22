@@ -1,5 +1,5 @@
 import { getSnippet } from '../actions/actions.js'
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Box} from "@mui/material";
 import { useParams } from 'react-router';
 import Card from 'react-bootstrap/Card';
@@ -9,8 +9,12 @@ export function ViewSnippet() {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const params = useParams();
+    const wasRendered = useRef(false);
 
     useEffect(() => {
+        if (wasRendered.current) return;
+        wasRendered.current = true;
+        
         getSnippet(params).then(function (data) {
                 if (data === 'not found') {
                     navigate('/notfound');
