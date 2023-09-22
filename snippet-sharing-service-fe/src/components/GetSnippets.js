@@ -4,11 +4,11 @@ import React, {useState, useEffect} from 'react';
 import { getSnippets } from '../actions/actions.js';
 import Table from 'react-bootstrap/Table';
 import Dropdown from 'react-bootstrap/Dropdown';
-
+import Paginations from './Paginations.js';
 
 export function GetSnippets() {
     const [data, setData] = useState([]);
-    const [isSortedByViews, setSortedByViews] = useState(false);
+    const [itemRange, setItemRange] = useState([0, 10]);
 
     useEffect(() => {
         getSnippets().then(data => setData(data));
@@ -16,6 +16,12 @@ export function GetSnippets() {
 
     const sortByViews = () => {
         setData([...data].sort((a, b) => a.views > b.views ? -1 : 1))
+    }
+
+    const paginate = pageNumber => {
+        setItemRange([(pageNumber-1)*10, pageNumber*10])
+        console.log(itemRange);
+        console.log(data);
     }
 
     return (
@@ -41,7 +47,7 @@ export function GetSnippets() {
             </tr>
             </thead>
             <tbody>
-                { data.map(item => (
+                { data.slice(itemRange[0], itemRange[1]).map(item => (
                 <tr key={item.snippet_id}>
                     <td>{item.title}</td>
                     <td>{new Date(item.added_date).toString()}</td>
@@ -51,6 +57,14 @@ export function GetSnippets() {
                 ))}
             </tbody>
         </Table> 
+
+        <br/>
+        <Table>
+            <Paginations
+            totalItems= {Object.keys(data).length}
+            paginate={paginate}
+            />
+        </Table>
     </div>  
     ) 
 }
