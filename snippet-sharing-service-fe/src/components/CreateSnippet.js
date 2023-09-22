@@ -30,8 +30,7 @@ export function CreateSnippet() {
                 {
                     content: content,
                     title: title,
-                    added_date: new Date(),
-                    expiry_date: new Date(new Date().getTime() + Number(expiry)*60000)
+                    expiry: expiry
                 })
         }
     }

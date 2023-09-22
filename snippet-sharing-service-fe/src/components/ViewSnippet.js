@@ -17,7 +17,7 @@ export function ViewSnippet() {
         <div>
             <Box style={{padding: "2rem"}}>
                 <h1>Title</h1>
-                <div>{data.title}</div>
+                <h2>{data.title}</h2>
             </Box>
             <br/>
             <Accordion defaultActiveKey="0" style={{padding: "2rem"}}>
