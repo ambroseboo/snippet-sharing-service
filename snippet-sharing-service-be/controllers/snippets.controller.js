@@ -16,25 +16,26 @@ export const getSnippets =  (req, res) => {
 }
 
 export const postSnippet = async (req, res) => {
-    const {content, title, added_date, expiry_date} = req.body;
+    const {content, title, expiry} = req.body;
     
     let isUniqueHashFound = false;
     let hash = '';
+    const currDate = new Date();
     while (!isUniqueHashFound) {
         let randInt = Math.floor(Math.random() * 100);
-        hash = md5(title + added_date + String(randInt));
+        hash = md5(title + currDate + String(randInt));
 
         let query = "select exists(select 1 from snippet where url_hash='" + hash + "')";
         let result = await pool.query(query);
-        console.log(result);
 
         if (!result.rows[0]['exists']) {
             isUniqueHashFound = true;
         }
     }
 
+    const expiryDate = new Date(currDate.getTime() + Number(expiry)*60000);
     const query = "INSERT INTO snippet (content, title, added_date, expiry_date, views, url_hash) VALUES ("
-    + "'" + content + "'" + "," + "'" + title + "'" + ", '" + added_date + "' , '" + expiry_date + "', 0, '" +  hash + "')";
+    + "'" + content + "'" + "," + "'" + title + "'" + ", '" + currDate.toISOString() + "' , '" + expiryDate.toISOString() + "', 0, '" +  hash + "')";
     pool.query(query, 
         (error) => {
             if (error) {
@@ -55,6 +56,17 @@ export const getSnippet = async (req, res) => {
         // redirect to not found page
         res.redirect("https://www.google.com")
     } else {
-        res.status(200).json(snippet.rows[0])
+        console.log(snippet.rows[0])
+        const expiry_date = snippet.rows[0]['expiry_date'];
+        const now = new Date(new Date().getTime() - 480*60000); // fix for timezone issues for now
+
+        if (expiry_date < now) {
+            // redirect to not found page
+            res.redirect("https://www.google.com")
+        } else {
+            query = "UPDATE snippet SET views = views+1 WHERE url_hash='" + url_hash + "'";
+            await pool.query(query)
+            res.status(200).json(snippet.rows[0])
+        }
     }
 }
