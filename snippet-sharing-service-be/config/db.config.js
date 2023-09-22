@@ -1,7 +1,8 @@
 import pg from 'pg'
+const connectionString = 'postgres://snippet_sharing_database_user:6Q5F9uA4lCbDt55X8W32hsAHE3gH1wQb@dpg-ck6n5308elhc73baln9g-a/snippet_sharing_database'
 export const pool = new pg.Pool(
     {
-        connectionString: process.env.DB_DATABASE_URL
+        connectionString
     }
 )
 
