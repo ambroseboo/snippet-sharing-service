@@ -1,10 +1,10 @@
 import './style.css';
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { getSnippets } from './actions/actions.js';
 import { CreateSnippet } from './components/CreateSnippet.js';
-import { GetSnippets } from './components/GetSnippets';
-import { ViewSnippet } from './components/ViewSnippet';
+import { GetSnippets } from './components/GetSnippets.js';
+import { ViewSnippet } from './components/ViewSnippet.js';
+import { NotFound } from './components/NotFound.js';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
@@ -16,6 +16,7 @@ function App() {
         <Route path="/snippets" element={<GetSnippets />} />
         <Route path="/snippet" element={<CreateSnippet />} />
         <Route path="/snippet/:url_hash" element={<ViewSnippet />} />
+        <Route path="/notfound" element={<NotFound />} />
       </Routes>
     </Router>
   )};

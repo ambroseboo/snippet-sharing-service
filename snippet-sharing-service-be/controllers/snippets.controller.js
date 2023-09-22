@@ -54,15 +54,14 @@ export const getSnippet = async (req, res) => {
 
     if (snippet.rows.length === 0) {
         // redirect to not found page
-        res.redirect("https://www.google.com")
+        res.send('not found');
     } else {
-        console.log(snippet.rows[0])
         const expiry_date = snippet.rows[0]['expiry_date'];
         const now = new Date(new Date().getTime() - 480*60000); // fix for timezone issues for now
 
         if (expiry_date < now) {
             // redirect to not found page
-            res.redirect("https://www.google.com")
+            res.send('not found');
         } else {
             query = "UPDATE snippet SET views = views+1 WHERE url_hash='" + url_hash + "'";
             await pool.query(query)
