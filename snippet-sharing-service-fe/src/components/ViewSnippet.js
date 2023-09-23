@@ -3,6 +3,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {Box} from "@mui/material";
 import { useParams } from 'react-router';
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
 import { useNavigate } from "react-router-dom";
 
 export function ViewSnippet() {
@@ -39,6 +40,25 @@ export function ViewSnippet() {
                 </Card.Text>
             </Card.Body>
             </Card>
+            <br/>
+            <Col className="d-flex">
+                <Card style={{ width: '30%', margin: 'auto', marginTop: '2rem' }}>
+                <Card.Body>
+                    <Card.Title>View Count</Card.Title>
+                    <Card.Text>
+                        <pre>{data.views}</pre>
+                    </Card.Text>
+                </Card.Body>
+                </Card>
+                <Card style={{ width: '30%', margin: 'auto', marginTop: '2rem' }}>
+                <Card.Body>
+                    <Card.Title>Time left to expiry</Card.Title>
+                    <Card.Text>
+                        <pre>{data.time_left} minutes</pre>
+                    </Card.Text>
+                </Card.Body>
+                </Card>
+            </Col>
             <br />
             <Card style={{ width: '50%', margin: 'auto', marginTop: '2rem' }}>
             <Card.Body>

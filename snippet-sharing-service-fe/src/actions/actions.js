@@ -16,4 +16,8 @@ export const postSnippet = async (data) => {
 export const getSnippet = async (params) => {
     return axios.get(`${proxy}/snippet/${params.url_hash}`)
         .then(res => res.data)
+        .then(data => {
+            data['time_left'] = Math.round((new Date(data['expiry_date']) - new Date)/60000);
+            return data;
+        })
 }
