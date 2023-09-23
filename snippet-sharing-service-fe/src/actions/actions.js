@@ -18,6 +18,7 @@ export const getSnippet = async (params) => {
         .then(res => res.data)
         .then(data => {
             data['time_left'] = Math.round((new Date(data['expiry_date']) - new Date)/60000);
+            data['views'] += 1; // add one view for the current viewing of the snippet
             return data;
         })
 }

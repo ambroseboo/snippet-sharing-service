@@ -35,8 +35,8 @@ export const postSnippet = async (req, res) => {
     }
 
     const expiryDate = new Date(currDate.getTime() + Number(expiry)*60000);
-    const query = "INSERT INTO snippet (content, title, added_date, expiry_date, views, url_hash) VALUES ("
-    + "'" + content + "'" + "," + "'" + title + "'" + ", '" + currDate.toISOString() + "' , '" + expiryDate.toISOString() + "', 0, '" +  hash + "');";
+    const query = "INSERT INTO snippet (content, title, added_date, expiry_date, views, url_hash) VALUES (" + "'" + content + "'" + "," 
+        + "'" + title + "'" + ", '" + currDate.toISOString() + "' , '" + expiryDate.toISOString() + "', 0, '" +  hash + "');";
     pool.query(query, 
         (error) => {
             if (error) {
