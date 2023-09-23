@@ -57,7 +57,7 @@ export const getSnippet = async (req, res) => {
         res.send('not found');
     } else {
         const expiry_date = snippet.rows[0]['expiry_date'];
-        const now = new Date(new Date().getTime() - 480*60000); // fix for timezone issues for now
+        const now = new Date(new Date().getTime()); 
 
         if (expiry_date < now) {
             res.send('not found');
