@@ -20,3 +20,4 @@
 
 ## Deployment
 - This project is deployed on Vercel (https://snippet-sharing-service-olive.vercel.app/). Backend and database hosted on Render.
+- Please be patient when opening the app, the backend will take some time to "wake up" (due to being hosted on Render)
