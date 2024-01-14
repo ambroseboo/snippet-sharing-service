@@ -1,4 +1,20 @@
 # Snippet Sharing Service (For GovTech TAP 2024)
+This is a project for the GovTech Technology Associate Programme 2024. The aim is to create a PasteBin clone, which supports the following functionalities:
+* Snippet Creation
+   * A snippet should consist of a title and its contents.
+   * The snippet should respect formatting entered by the user (eg. whitespace, new lines).
+   * The snippet should be assigned a unique URL. It should be automatically generated.
+* Snippet Retrieval
+   * Users should be able to access a snippet by entering its unique URL and view the stored content.
+* Snippet Views and Statistics
+   * Track and display the number of views for each snippet. Each time a snippet is accessed, its view counter is incremented by 1.
+* Snippet Listing
+   * Users should be able to view a list of all snippets. Users should be able to sort by most recent snippets (default) or by most number of views. There should be either infinite scrolling or pagination for every 10 snippets listed.
+* Persistence
+   * Implement storage for the snippets using a database to ensure that the created snippets and their respective metadata are stored and retrievable.
+* Snippet Expiration
+   * Automatically remove snippets from being readable after a specified period (in minutes after creation) to simulate an expiration policy. You may decide whether the snippet contents are deleted from the database.
+
 ## Choice of stack: PERN stack (Postgres, Express, React, Node)
 * Data: snippet content, title, expiry, url, views, date_posted
 * Choose relational (postgres) since we need to order snippets by views/time posted
@@ -11,7 +27,7 @@
     * Components
     * Ease of testing
 
-## To generate (short) url:
+## How the short url is generated:
 - Use base64 encoding because all base64 chars are url-safe
 - Use MD5 hash algorithm, which has a fixed length output
     - Take MD5 hash of (timestamp (date_added) + title + random int)
